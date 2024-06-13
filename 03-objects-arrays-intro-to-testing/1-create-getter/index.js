@@ -3,30 +3,21 @@
  * @param {string} path - the strings path separated by dot
  * @returns {function} - function-getter which allow get value from object by set path
  */
-const object = {
-  category: {
-    title: "Goods",
-    foo: undefined,
-  },
-};
 
 export function createGetter(path) {
   const fields = path.split(".");
 
   return function getValue(object) {
     let currentObject = object;
-    let hasOwnProperty = false;
 
-    fields.forEach((key, index) => {
-      if (currentObject.hasOwnProperty(key)) {
-        currentObject = currentObject[key];
-
-        if (index === fields.length - 1) {
-          hasOwnProperty = true;
-        }
+    for (const field of fields) {
+      if (currentObject.hasOwnProperty(field)) {
+        currentObject = currentObject[field];
+      } else {
+        return undefined;
       }
-    });
+    }
 
-    return hasOwnProperty ? currentObject : undefined;
+    return currentObject;
   };
 }
