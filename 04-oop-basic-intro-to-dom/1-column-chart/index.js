@@ -6,7 +6,7 @@ export default class ColumnChart {
     link = "",
     chartHeight = 50,
     formatHeading = (data) => `${data}`,
-  }) {
+  } = {}) {
     this.data = data;
     this.label = label;
     this.value = value;
@@ -19,6 +19,9 @@ export default class ColumnChart {
   createElement(template) {
     const element = document.createElement("div");
     element.innerHTML = template;
+    if (this.data.length === 0) {
+      element.classList.add("column-chart_loading");
+    }
     return element;
   }
 
@@ -27,9 +30,7 @@ export default class ColumnChart {
       <h2>${this.label}</h2>
       <div class="dashboard__charts">
         <div id="${this.label}" class="dashboard__chart_${this.label}">
-          <div class="column-chart ${
-            this.data.length == 0 && "column-chart_loading"
-          }" style="--chart-height: ${this.chartHeight}">
+          <div class="column-chart" style="--chart-height: ${this.chartHeight}">
             <div class="column-chart__title">
               Total ${this.label}
               <a class="column-chart__link" href="${this.link}">View all</a>
@@ -75,7 +76,7 @@ export default class ColumnChart {
 
   update(data) {
     this.data = data || [];
-    const chart = document.querySelector(`.column-chart__chart`);
+    const chart = this.element.querySelector(`.column-chart__chart`);
     chart.innerHTML = this.createColumn(this.data);
   }
 
@@ -86,6 +87,4 @@ export default class ColumnChart {
   destroy() {
     this.remove();
   }
-
-  // return {element: ..., getColumnProps(), update(), remove(), }
 }
