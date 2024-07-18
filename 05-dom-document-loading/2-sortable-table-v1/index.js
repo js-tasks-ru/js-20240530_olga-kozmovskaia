@@ -12,7 +12,7 @@ export default class SortableTable {
 
   createHeaderTemplate({ id, sortable, title }) {
     return `
-      <div class="sortable-table__cell" data-id="${id}" data-sortable=${sortable}>
+      <div class="sortable-table__cell" data-id="${id}" data-sortable=${sortable} data-order="asc">
         <span>${title}</span>
       </div>`;
   }
