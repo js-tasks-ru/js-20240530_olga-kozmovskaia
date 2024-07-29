@@ -1,14 +1,11 @@
 import SortableTableV1 from "../../05-dom-document-loading/2-sortable-table-v1/index.js";
 
 export default class SortableTable extends SortableTableV1 {
-  constructor(
-    headersConfig,
-    { data = [], sorted = { id: "title", order: "asc" } } = {}
-  ) {
+  constructor(headersConfig, { data = [], sorted = {} } = {}) {
     super(headersConfig, data);
     this.data = data;
-    this.sortField = sorted.id;
-    this.sortOrder = sorted.order;
+    this.sortField = sorted.id || "";
+    this.sortOrder = sorted.order || "";
     this.isSortLocally = true;
     this.createEventListeners();
     this.sort();
