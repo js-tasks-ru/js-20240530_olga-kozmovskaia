@@ -3,7 +3,7 @@ import SortableTableV1 from "../../05-dom-document-loading/2-sortable-table-v1/i
 export default class SortableTable extends SortableTableV1 {
   constructor(
     headersConfig,
-    { data = [], sorted = { id: "", order: "" } } = {}
+    { data = [], sorted = { id: "title", order: "asc" } } = {}
   ) {
     super(headersConfig, data);
     this.data = data;
@@ -24,26 +24,25 @@ export default class SortableTable extends SortableTableV1 {
 
   sortOnClient() {
     super.sort(this.sortField, this.sortOrder);
-    this.createSortArrow();
-  }
-
-  removeSortArrow() {
-    const arrowElement = this.element.querySelector(
-      ".sortable-table__sort-arrow"
+    const arrow = this.createSortArrow();
+    this.headerSorted = this.element.querySelector(
+      `[data-id="${this.sortField}"]`
     );
-    if (!arrowElement) return;
-    arrowElement.remove();
+    this.headerSorted.append(arrow);
   }
 
   createSortArrow() {
-    this.removeSortArrow();
-    const arrowElement = document.createElement("span");
-    arrowElement.dataset.element = "arrow";
-    arrowElement.classList.add("sortable-table__sort-arrow");
-    arrowElement.innerHTML = `<span class="sort-arrow"></span>`;
-    this.element
-      .querySelector(`[data-id="${this.sortField}"]`)
-      .append(arrowElement);
+    let arrowElement = this.element.querySelector(
+      ".sortable-table__sort-arrow"
+    );
+
+    if (!arrowElement) {
+      arrowElement = document.createElement("span");
+      arrowElement.dataset.element = "arrow";
+      arrowElement.classList.add("sortable-table__sort-arrow");
+      arrowElement.innerHTML = `<span class="sort-arrow"></span>`;
+    }
+    return arrowElement;
   }
 
   handleElementClick = (e) => {
