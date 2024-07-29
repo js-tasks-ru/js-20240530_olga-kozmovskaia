@@ -12,7 +12,7 @@ export default class SortableTable {
 
   createHeaderTemplate({ id, sortable, title }) {
     return `
-      <div class="sortable-table__cell" data-id="${id}" data-sortable=${sortable} data-order="asc">
+      <div class="sortable-table__cell" data-id="${id}" data-sortable=${sortable}>
         <span>${title}</span>
       </div>`;
   }
@@ -96,6 +96,7 @@ export default class SortableTable {
       return sortOrder === "asc" ? comparison : -comparison;
     });
 
+    this.subElements.header.dataset.order = sortOrder;
     this.data = copyArr;
     this.update();
   }

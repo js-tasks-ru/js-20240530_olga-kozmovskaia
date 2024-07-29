@@ -1,17 +1,20 @@
 import SortableTableV1 from "../../05-dom-document-loading/2-sortable-table-v1/index.js";
 
 export default class SortableTable extends SortableTableV1 {
-  constructor(headersConfig, { data = [], sorted = {} } = {}) {
+  constructor(
+    headersConfig,
+    { data = [], sorted: { id = "title", order = "asc" } } = {}
+  ) {
     super(headersConfig, data);
     this.data = data;
-    this.sortField = sorted.id || "";
-    this.sortOrder = sorted.order || "";
+    this.sortField = id;
+    this.sortOrder = order;
     this.isSortLocally = true;
     this.createEventListeners();
-    this.sort();
+    this.sortFunction();
   }
 
-  sort() {
+  sortFunction() {
     if (this.isSortLocally) {
       this.sortOnClient();
     } else {
@@ -20,7 +23,7 @@ export default class SortableTable extends SortableTableV1 {
   }
 
   sortOnClient() {
-    super.sort(this.sortField, this.sortOrder);
+    this.sort(this.sortField, this.sortOrder);
     const arrow = this.createSortArrow();
     this.headerSorted = this.element.querySelector(
       `[data-id="${this.sortField}"]`
@@ -47,7 +50,7 @@ export default class SortableTable extends SortableTableV1 {
     this.sortField = element.dataset.id;
     this.sortOrder = this.sortOrder === "asc" ? "desc" : "asc";
     element.dataset.order = this.sortOrder;
-    this.sortOnClient();
+    this.sortFunction();
   };
 
   createEventListeners() {
