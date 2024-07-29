@@ -96,6 +96,7 @@ export default class SortableTable {
       return sortOrder === "asc" ? comparison : -comparison;
     });
 
+    this.subElements.header.dataset.order = sortOrder;
     this.data = copyArr;
     this.update();
   }
